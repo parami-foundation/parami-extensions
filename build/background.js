@@ -1,0 +1,1 @@
+(()=>{"use strict";chrome.storage.sync.set({network:{graph:"https://graph.parami.io/",rpc:"https://app.parami.io/",paramiLinkAddress:"0x7A585595490328503eb3609723B0B16Eb0373013",chainId:1}})})();
