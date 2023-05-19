@@ -4,12 +4,13 @@ import { Popover, Card } from 'antd';
 import { useState } from 'react';
 import Advertisement from '../Advertisement/Advertisement';
 import { POST_MESSAGE_PREFIX } from '../../models';
+import { HnftBadge } from 'hyperlink-nft-badge';
 
 export interface AdIconProps {
-    href: string;
-    ad: { success: boolean; data: any; nftId?: string };
-    avatarSrc?: string;
-    largeIcon: boolean;
+    // href: string;
+    // ad: { success: boolean; data: any; nftId?: string };
+    avatarSrc: string;
+    // largeIcon: boolean;
 }
 
 const preload = (src: string) => {
@@ -24,96 +25,99 @@ const defaultAdIcon = chrome.runtime.getURL('icons/logo-round-core.svg');
 
 const MAX_RETRY_COUNT = 3;
 
-function AdIcon({ href, ad, avatarSrc, largeIcon }: AdIconProps) {
-    const [adResult, setAdResult] = useState<any>(ad);
-    const [adData, setAdData] = useState<any>();
-    const [adClaimed, setAdClaimed] = useState<boolean>(false);
-    const [userDid, setUserDid] = useState<string>();
-    const [retryCounter, setRetryCounter] = useState<number>(0);
-    const [trigger, setTrigger] = useState<string>('hover');
-    const [open, setOpen] = useState<boolean>(false);
+function AdIcon({ avatarSrc }: AdIconProps) {
+    // const [adResult, setAdResult] = useState<any>(ad);
+    // const [adData, setAdData] = useState<any>();
+    // const [adClaimed, setAdClaimed] = useState<boolean>(false);
+    // const [userDid, setUserDid] = useState<string>();
+    // const [retryCounter, setRetryCounter] = useState<number>(0);
+    // const [trigger, setTrigger] = useState<string>('hover');
+    // const [open, setOpen] = useState<boolean>(false);
 
-    const retry = (adInfo: { nftId?: string; contractAddress?: string; tokenId?: string }) => {
-        if (retryCounter < MAX_RETRY_COUNT) {
-            setRetryCounter(retryCounter + 1);
-            // retry and then set adData
-            chrome.runtime.sendMessage({ method: 'fetchAd', adInfo }, (response) => {
-                const { ad } = response;
-                setAdResult(ad);
-            });
-        }
-    }
+    // const retry = (adInfo: { nftId?: string; contractAddress?: string; tokenId?: string }) => {
+    //     if (retryCounter < MAX_RETRY_COUNT) {
+    //         setRetryCounter(retryCounter + 1);
+    //         // retry and then set adData
+    //         chrome.runtime.sendMessage({ method: 'fetchAd', adInfo }, (response) => {
+    //             const { ad } = response;
+    //             setAdResult(ad);
+    //         });
+    //     }
+    // }
 
-    useEffect(() => {
-        if (adResult.success) {
-            setAdData(adResult.data);
-        } else {
-            retry(adResult.adInfo)
-        }
-    }, [adResult])
+    // useEffect(() => {
+    //     if (adResult.success) {
+    //         setAdData(adResult.data);
+    //     } else {
+    //         retry(adResult.adInfo)
+    //     }
+    // }, [adResult])
 
-    const handleClickAction = () => {
-        setTrigger('click');
-    }
+    // const handleClickAction = () => {
+    //     setTrigger('click');
+    // }
 
-    const handleClose = () => {
-        setOpen(false);
-        setTrigger('hover');
-    }
+    // const handleClose = () => {
+    //     setOpen(false);
+    //     setTrigger('hover');
+    // }
 
-    const handlePopoverOpen = (open: boolean) => {
-        setOpen(open);
-        if (!open) {
-            setTrigger('hover');
-        }
-    }
+    // const handlePopoverOpen = (open: boolean) => {
+    //     setOpen(open);
+    //     if (!open) {
+    //         setTrigger('hover');
+    //     }
+    // }
 
-    const content = (
-        adData
-            ? <Advertisement
-                ad={adData}
-                avatarSrc={avatarSrc}
-                userDid={userDid}
-                claimed={adClaimed}
-                clickAction={handleClickAction}
-                onClose={handleClose}
-                showCloseIcon={trigger === 'click'}
-            ></Advertisement>
-            : null
-    );
+    // const content = (
+    //     adData
+    //         ? <Advertisement
+    //             ad={adData}
+    //             avatarSrc={avatarSrc}
+    //             userDid={userDid}
+    //             claimed={adClaimed}
+    //             clickAction={handleClickAction}
+    //             onClose={handleClose}
+    //             showCloseIcon={trigger === 'click'}
+    //         ></Advertisement>
+    //         : null
+    // );
 
-    useEffect(() => {
-        chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-            if (request.method === 'didChange') {
-                setUserDid(request.didHex);
-            }
-            return true;
-        });
-    }, []);
+    // useEffect(() => {
+    //     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    //         if (request.method === 'didChange') {
+    //             setUserDid(request.didHex);
+    //         }
+    //         return true;
+    //     });
+    // }, []);
 
-    useEffect(() => {
-        window.addEventListener('message', (event) => {
-            if (event.origin !== 'https://app.parami.io' && event.origin !== 'https://twitter.com') {
-                return;
-            }
-            if (event.data) {
-                if (typeof event.data.startsWith === 'function' && event.data.startsWith(POST_MESSAGE_PREFIX.AD_CLAIMED)) {
-                    const nftId = event.data.slice(10);
-                    if (nftId === adData?.nftId) {
-                        setAdClaimed(true);
-                    }
-                }
-            }
-        });
+    // useEffect(() => {
+    //     window.addEventListener('message', (event) => {
+    //         if (event.origin !== 'https://app.parami.io' && event.origin !== 'https://twitter.com') {
+    //             return;
+    //         }
+    //         if (event.data) {
+    //             if (typeof event.data.startsWith === 'function' && event.data.startsWith(POST_MESSAGE_PREFIX.AD_CLAIMED)) {
+    //                 const nftId = event.data.slice(10);
+    //                 if (nftId === adData?.nftId) {
+    //                     setAdClaimed(true);
+    //                 }
+    //             }
+    //         }
+    //     });
 
-        setAdClaimed(adData?.adClaimed);
-        setUserDid(adData?.userDid);
-        preload(adData?.icon);
-        preload(adData?.media);
-    }, [adData]);
+    //     setAdClaimed(adData?.adClaimed);
+    //     setUserDid(adData?.userDid);
+    //     preload(adData?.icon);
+    //     preload(adData?.media);
+    // }, [adData]);
 
     return <div className='pfp-link-badge-container'>
-        {!content && <>
+        <div className='pfp-link-badge'>
+            <HnftBadge hnftContractAddress='0x94F25955e84682BbE5301537f29442Ce1D5b7584' hnftTokenId={140} hnftImageUrl={avatarSrc ?? ''}></HnftBadge>
+        </div>
+        {/* {!content && <>
             <a className={`pfp-link-badge pure-link ${largeIcon ? 'large-icon' : ''}`} target="_blank"
                 href={href}
             >
@@ -132,7 +136,7 @@ function AdIcon({ href, ad, avatarSrc, largeIcon }: AdIconProps) {
                     </>}
                 </span>
             </Popover>
-        </>}
+        </>} */}
     </div>;
 };
 
