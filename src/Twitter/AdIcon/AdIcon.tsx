@@ -113,9 +113,12 @@ function AdIcon({ avatarSrc }: AdIconProps) {
     //     preload(adData?.media);
     // }, [adData]);
 
+    const regex = /_(bigger|\d+x\d+)\.jpg$/;
+    const imageUrl = (avatarSrc ?? '').replace(regex, '_normal.jpg');
+
     return <div className='pfp-link-badge-container'>
         <div className='pfp-link-badge'>
-            <HnftBadge hnftContractAddress='0x94F25955e84682BbE5301537f29442Ce1D5b7584' hnftTokenId={140} hnftImageUrl={avatarSrc ?? ''}></HnftBadge>
+            <HnftBadge hnftImageUrl={imageUrl}></HnftBadge>
         </div>
         {/* {!content && <>
             <a className={`pfp-link-badge pure-link ${largeIcon ? 'large-icon' : ''}`} target="_blank"

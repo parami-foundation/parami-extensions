@@ -22,10 +22,9 @@
   -moz-border-radius: 100%;
   -ms-border-radius: 100%;
   -o-border-radius: 100%;
-  border: 0.5px solid rgb(230, 230, 230);
 }
 
-.pfp-link-badge.ad-icon {
+/* .pfp-link-badge.ad-icon {
   border: none;
   margin-top: -5%;
 }
@@ -108,37 +107,8 @@
   position: absolute;
   width: 60%;
   height: 60%;
-}
-
-/* .pfp-link-badge.default-icon.large-icon svg {
-  width: 60%;
-  height: 60%;
 } */
 
-/* .priceInfo {
-  width: fit-content;
-  height: 32px;
-  font-size: 12px;
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 110%;
-}
-
-.priceInfo .price {
-  color: #737373;
-  line-height: 14px;
-  transform: scale(0.9);
-  transform-origin: 0px center;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.priceInfo .priceChange {
-  color: #3CDF4C;
-  transform: scale(0.8);
-  transform-origin: 0 center;
-} */
 
 @keyframes opacity {
   0% {
