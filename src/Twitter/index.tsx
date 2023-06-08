@@ -2,8 +2,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import { AD_ICON_CONTAINER_CLASSNAME, NOT_PARAMI_AD } from '../models';
-import { queryAdInfoFromAvatar } from '../utilities';
+import { AD_ICON_CONTAINER_CLASSNAME } from '../models';
 import AdIcon from './AdIcon/AdIcon';
 import 'antd/dist/antd.css';
 
@@ -60,17 +59,6 @@ import 'antd/dist/antd.css';
 
         if (a.href.endsWith('/followers_you_follow')) continue;
 
-        if (!imgUrl2AdInfoPromise.has(avatar.src)) {
-          const targetUsername = a.href.slice(a.href.lastIndexOf('/') + 1);
-          imgUrl2AdInfoPromise.set(avatar.src, queryAdInfoFromAvatar(avatar.src, targetUsername !== 'photo' ? targetUsername : '', fromUser));
-        }
-
-        const { isHnft, adInfo, hyperlink } = await imgUrl2AdInfoPromise.get(avatar.src);
-
-        if (!isHnft) {
-          continue;
-        }
-
         if (container.querySelector(`.${AD_ICON_CONTAINER_CLASSNAME}`)) {
           continue;
         }
@@ -81,14 +69,7 @@ import 'antd/dist/antd.css';
         container.prepend(adIconContainer);
         const root = createRoot(adIconContainer);
 
-        if (adInfo.isParamiAd) {
-          chrome.runtime.sendMessage({ method: 'fetchAd', adInfo }, (response) => {
-            const { ad } = response;
-            root.render(<AdIcon ad={ad} href={hyperlink} avatarSrc={avatar.src} largeIcon={!isRegularAvatar} />);
-          });
-        } else {
-          root.render(<AdIcon ad={NOT_PARAMI_AD} href={hyperlink} largeIcon={!isRegularAvatar} />);
-        }
+        root.render(<AdIcon avatarSrc={avatar.src} />);
       }
     }
   };
