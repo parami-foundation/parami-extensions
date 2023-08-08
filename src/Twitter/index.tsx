@@ -4,12 +4,27 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import { AD_ICON_CONTAINER_CLASSNAME } from '../models';
 import AdIcon from './AdIcon/AdIcon';
-import 'antd/dist/antd.css';
+// import 'antd/dist/antd.css';
+// import { Web3Auth } from "@web3auth/modal";
 
-(() => {
+(async () => {
+  //Initialize within your constructor
+  // const web3auth = new Web3Auth({
+  //   clientId: "BJ9n3fjw9ktpiBEhDmjmXJYjSSukqDKNcksPiXMJ0-OSKqOOvupv9AlUjA_wXqCHftZJCr85e5I8O10hWn6pFT4", // Get your Client ID from Web3Auth Dashboard
+  //   chainConfig: {
+  //     chainNamespace: "eip155",
+  //     chainId: "0x5", // Please use 0x5 for Goerli Testnet
+  //     rpcTarget: "https://rpc.ankr.com/eth",
+  //   },
+  // });
+
+  // await web3auth.initModal();
+
   const nodeMap = new Map();
   const imgUrl2AdInfoPromise = new Map();
   let fromUser: string;
+
+  console.log('loading sdk')
 
   const callback = async (mutations: any) => {
     for (let i = 0; i < mutations.length; i += 1) {

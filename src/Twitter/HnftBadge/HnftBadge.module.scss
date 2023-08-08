@@ -1,0 +1,25 @@
+.hnftBadge {
+  position: relative;
+  background-color: #fff;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  z-index: 10;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &.default {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .iconContainer {
+      width: 70%;
+      height: 70%;
+    }
+  }
+}
